@@ -19,6 +19,8 @@
             x:Name="DataGrid"
             Grid.Row="0"
             AutoGenerateColumns="False"
+            AutomationProperties.AutomationId="UserGrid"
+            CanUserAddRows="false"
             ItemsSource="{Binding Users}">
             <DataGrid.Columns>
                 <DataGridTextColumn
@@ -38,6 +40,7 @@
             Height="30"
             Margin="5"
             HorizontalAlignment="Left"
+            AutomationProperties.AutomationId="LoadingButton"
             Command="{Binding LoadDataCommand}"
             Content="Load Data" />
     </Grid>
