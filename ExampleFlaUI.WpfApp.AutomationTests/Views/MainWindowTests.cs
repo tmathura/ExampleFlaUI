@@ -57,12 +57,32 @@ public class MainWindowTests
     public async Task MainWindow_Load()
     {
         // Arrange
+
+        // show how to get it without helper
+        var loadingButton = await AutomationHelper.WaitOnAutomationElement(MainWindow, ConditionFactory.ByAutomationId("LoadingButton"));
+
+        var asButton = loadingButton.AsButton();
+
+        Assert.IsNotNull(asButton);
+        Assert.AreEqual("Load Data", asButton.Name);
+
         var button = await WpfAppHelper.GetLoadingButton();
 
         // Act
         button.Click();
 
         // Assert
+        Window[] modalWindows = MainWindow.ModalWindows;
+        
+        // Check if loading window is opened
+        Assert.AreEqual(1, modalWindows.Length);
+
+        // Refresh the list of modal windows
+        modalWindows = await AutomationHelper.GetModalWindowsAfterDelay(MainWindow, TimeSpan.FromSeconds(3));
+
+        // Check if loading window is closed
+        Assert.AreEqual(0, modalWindows.Length);
+
         var grid = await WpfAppHelper.GetUserGrid();
 
         Assert.AreEqual(2, grid.Rows.Length);

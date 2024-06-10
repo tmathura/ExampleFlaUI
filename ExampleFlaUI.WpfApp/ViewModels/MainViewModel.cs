@@ -1,7 +1,9 @@
-using System.Windows.Input;
-using System.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ExampleFlaUI.WpfApp.Models;
+using ExampleFlaUI.WpfApp.Views;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace ExampleFlaUI.WpfApp.ViewModels;
 
@@ -16,7 +18,7 @@ public class MainViewModel : INotifyPropertyChanged
         set
         {
             _users = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Users)));
+            PropertyChanged(this, new PropertyChangedEventArgs(nameof(Users)));
         }
     }
 
@@ -29,6 +31,13 @@ public class MainViewModel : INotifyPropertyChanged
 
     public void LoadData()
     {
+        var loadingWindow = new LoadingWindow
+        {
+            Owner = Application.Current.MainWindow
+        };
+
+        loadingWindow.ShowDialog();
+
         Users =
         [
             new UserModel { Id = 1, Name = "John Doe" },
